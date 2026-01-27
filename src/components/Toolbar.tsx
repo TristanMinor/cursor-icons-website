@@ -67,7 +67,7 @@ export function Toolbar({
         <input
           className="toolbar-search-input"
           type="text"
-          placeholder="Search icons by name, tag, or unicode..."
+          placeholder="Search icons..."
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
         />
