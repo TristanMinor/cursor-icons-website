@@ -194,7 +194,7 @@ input {
 .toolbar-search {
   position: relative;
   flex: 1;
-  max-width: 400px;
+  max-width: 560px;
 }
 
 .toolbar-search-clear {
@@ -352,7 +352,7 @@ input {
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   color: var(--text-secondary);
   transition: all 0.15s;
 }
@@ -391,19 +391,18 @@ input {
   align-items: center;
   gap: 6px;
   height: 32px;
-  padding: 0 12px;
+  padding: 0 14px;
   font-size: 13px;
-  border-radius: var(--radius-sm);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-primary);
-  transition: all 0.15s;
+  border-radius: 999px;
+  color: var(--bg-primary);
+  background: var(--text-primary);
+  border: none;
+  transition: opacity 0.15s;
   white-space: nowrap;
 }
 
 .toolbar-download-btn:hover {
-  color: var(--text-primary);
-  border-color: var(--border-secondary);
-  background: var(--bg-hover);
+  opacity: 0.85;
 }
 
 .toolbar-download-btn > span {
@@ -536,7 +535,7 @@ input {
   justify-content: center;
   width: 28px;
   height: 28px;
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   color: var(--text-secondary);
   transition: all 0.15s;
 }

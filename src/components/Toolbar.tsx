@@ -168,16 +168,6 @@ export function Toolbar({
           : `${iconCount} / ${totalCount}`}
       </span>
 
-      {/* Download fonts */}
-      <button
-        className="toolbar-download-btn"
-        onClick={downloadFonts}
-        title="Download Icon Fonts (TTF + WOFF2)"
-      >
-        <span dangerouslySetInnerHTML={{ __html: ICON_CLOUD_DOWNLOAD }} />
-        Download Fonts
-      </button>
-
       <div className="toolbar-divider" />
 
       {/* Dark mode toggle */}
@@ -187,6 +177,16 @@ export function Toolbar({
         title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
       >
         <span dangerouslySetInnerHTML={{ __html: darkMode ? ICON_SUN : ICON_MOON }} />
+      </button>
+
+      {/* Download fonts */}
+      <button
+        className="toolbar-download-btn"
+        onClick={downloadFonts}
+        title="Download Icon Fonts (TTF + WOFF2)"
+      >
+        <span dangerouslySetInnerHTML={{ __html: ICON_CLOUD_DOWNLOAD }} />
+        Download Fonts
       </button>
     </div>
   );
