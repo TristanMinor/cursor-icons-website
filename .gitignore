@@ -18,6 +18,9 @@ out/
 *.swp
 *.swo
 
+# Generated
+src/generated/
+
 # OS
 .DS_Store
 Thumbs.db
