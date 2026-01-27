@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-const VALID_PASSWORD = "anysphere";
+const VALID_PASSWORD = "tinker-tailor-folder-try";
 
 interface PasswordGateProps {
   children: React.ReactNode;
