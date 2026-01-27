@@ -1,5 +1,7 @@
+import { useCallback } from "react";
+import JSZip from "jszip";
 import type { IconSize, IconStyle } from "../types";
-import { ICON_SEARCH, ICON_X, ICON_SUN, ICON_MOON } from "../icons";
+import { ICON_SEARCH, ICON_X, ICON_SUN, ICON_MOON, ICON_CLOUD_DOWNLOAD } from "../icons";
 
 interface ToolbarProps {
   query: string;
@@ -34,6 +36,29 @@ export function Toolbar({
   iconCount,
   totalCount,
 }: ToolbarProps) {
+  const downloadFonts = useCallback(async () => {
+    const zip = new JSZip();
+    const fontFiles = [
+      { path: "/fonts/Cursor Icons Outline.ttf", name: "Cursor Icons Outline.ttf" },
+      { path: "/fonts/Cursor Icons Outline.woff2", name: "Cursor Icons Outline.woff2" },
+      { path: "/fonts/Cursor Icons Filled.ttf", name: "Cursor Icons Filled.ttf" },
+      { path: "/fonts/Cursor Icons Filled.woff2", name: "Cursor Icons Filled.woff2" },
+    ];
+    for (const file of fontFiles) {
+      const res = await fetch(file.path);
+      if (res.ok) {
+        zip.file(file.name, await res.arrayBuffer());
+      }
+    }
+    const blob = await zip.generateAsync({ type: "blob" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Cursor Icon Fonts.zip";
+    a.click();
+    URL.revokeObjectURL(url);
+  }, []);
+
   return (
     <div className="toolbar">
       {/* Search */}
@@ -142,6 +167,16 @@ export function Toolbar({
           ? `${totalCount} icons`
           : `${iconCount} / ${totalCount}`}
       </span>
+
+      {/* Download fonts */}
+      <button
+        className="toolbar-download-btn"
+        onClick={downloadFonts}
+        title="Download Icon Fonts (TTF + WOFF2)"
+      >
+        <span dangerouslySetInnerHTML={{ __html: ICON_CLOUD_DOWNLOAD }} />
+        Download Fonts
+      </button>
 
       <div className="toolbar-divider" />
 
