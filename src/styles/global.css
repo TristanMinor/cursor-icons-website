@@ -194,7 +194,7 @@ input {
 .toolbar-search {
   position: relative;
   flex: 1;
-  max-width: 560px;
+  min-width: 300px;
 }
 
 .toolbar-search-clear {
