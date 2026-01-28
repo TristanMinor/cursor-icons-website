@@ -73,7 +73,7 @@
 
 [data-theme="light"] {
   --bg-primary: #F7F7F4;
-  --bg-secondary: #EFEFEC;
+  --bg-secondary: #F0EEEA;
   --bg-surface: #FFFFFF;
   --bg-hover: #E8E8E5;
   --bg-active: #DDDDD9;
@@ -159,10 +159,17 @@ input {
 
 /* ── App Layout ─────────────────────────────────────────────────────────────── */
 
+.app-shell {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
 .app {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -193,8 +200,8 @@ input {
 
 .toolbar-search {
   position: relative;
-  flex: 1;
-  min-width: 300px;
+  width: 320px;
+  flex-shrink: 0;
 }
 
 .toolbar-search-clear {
@@ -262,6 +269,7 @@ input {
 .toolbar-divider {
   width: 1px;
   height: 24px;
+  flex-shrink: 0;
   background: var(--border-primary);
 }
 
@@ -269,15 +277,18 @@ input {
   display: flex;
   align-items: center;
   gap: 2px;
+  flex-shrink: 0;
 }
 
 .toolbar-toggle {
   height: 32px;
   padding: 0 8px;
+  flex-shrink: 0;
   border-radius: var(--radius-sm);
   font-size: 14px;
   color: var(--text-secondary);
   transition: color 0.15s;
+  white-space: nowrap;
 }
 
 .toolbar-toggle:hover {
@@ -292,6 +303,7 @@ input {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .toolbar-slider-label {
@@ -352,7 +364,8 @@ input {
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
   color: var(--text-secondary);
   transition: all 0.15s;
 }
@@ -425,6 +438,7 @@ input {
   color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ── Icon Grid ──────────────────────────────────────────────────────────────── */
@@ -896,4 +910,198 @@ input {
 
 .password-gate-btn:hover {
   background: var(--accent-hover);
+}
+
+/* ========== Side Navigation ========== */
+
+.sidenav {
+  width: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+  border-right: 1px solid transparent;
+  transition: width 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.sidenav[data-open="true"] {
+  width: 200px;
+  border-right-color: var(--border-primary);
+  padding: 20px 24px;
+}
+
+.sidenav-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 0;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.sidenav-item:hover {
+  color: var(--accent);
+}
+
+.sidenav-item[data-active="true"] {
+  color: var(--accent);
+}
+
+/* ========== Concepts Table ========== */
+
+.concepts-table-wrapper {
+  min-width: 0;
+}
+
+.concepts-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 15px;
+  width: 100%;
+  min-width: 600px;
+}
+
+.concepts-table th {
+  text-align: left;
+  padding: 8px 16px 8px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  background: var(--bg-primary);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: 0 -24px 0 0 var(--bg-primary);
+}
+
+.concepts-table th:hover {
+  color: var(--text-primary);
+}
+
+.concepts-th-concept,
+.concepts-th-icon,
+.concepts-th-status {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.concepts-th-actions {
+  width: auto;
+}
+
+.concepts-row {
+}
+
+.concepts-row td {
+  padding: 10px 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-primary);
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.concepts-row:last-child td {
+  border-bottom: none;
+}
+
+.concepts-cell-concept {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.concepts-cell-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-primary);
+}
+
+.concepts-cell-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.concepts-cell-name {
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.concepts-cell-iconname {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.concepts-status-badge {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.concepts-status-badge[data-status="approved"] {
+  color: #22c55e;
+}
+
+.concepts-status-badge[data-status="to-be-reviewed"] {
+  color: var(--text-secondary);
+}
+
+/* Action buttons — hidden by default, shown on row hover */
+.concepts-actions-row {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.concepts-row:hover .concepts-actions-row {
+  opacity: 1;
+}
+
+.concepts-actions-row {
+  display: flex;
+  gap: 4px;
+}
+
+.concepts-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.concepts-action-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.concepts-action-btn[data-copied="true"] {
+  color: #22c55e;
+}
+
+.concepts-action-btn span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+}
+
+.concepts-action-btn span svg {
+  width: 100%;
+  height: 100%;
 }

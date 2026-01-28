@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import JSZip from "jszip";
 import type { IconSize, IconStyle } from "../types";
-import { ICON_SEARCH, ICON_X, ICON_SUN, ICON_MOON, ICON_DOWNLOAD } from "../icons";
+import { ICON_SEARCH, ICON_X, ICON_SUN, ICON_MOON, ICON_DOWNLOAD, ICON_MENU } from "../icons";
+import type { Page } from "./SideNav";
 
 interface ToolbarProps {
   query: string;
@@ -18,6 +19,8 @@ interface ToolbarProps {
   onDarkModeChange: (dark: boolean) => void;
   iconCount: number;
   totalCount: number;
+  page: Page;
+  onMenuToggle: () => void;
 }
 
 export function Toolbar({
@@ -35,6 +38,8 @@ export function Toolbar({
   onDarkModeChange,
   iconCount,
   totalCount,
+  page,
+  onMenuToggle,
 }: ToolbarProps) {
   const downloadFonts = useCallback(async () => {
     const zip = new JSZip();
@@ -61,13 +66,24 @@ export function Toolbar({
 
   return (
     <div className="toolbar">
+      {/* Menu toggle */}
+      <button
+        className="toolbar-btn"
+        onClick={onMenuToggle}
+        title="Toggle menu"
+      >
+        <span dangerouslySetInnerHTML={{ __html: ICON_MENU }} />
+      </button>
+
+      <div className="toolbar-divider" />
+
       {/* Search */}
       <div className="toolbar-search">
         <span className="toolbar-search-icon" dangerouslySetInnerHTML={{ __html: ICON_SEARCH }} />
         <input
           className="toolbar-search-input"
           type="text"
-          placeholder="Search icons..."
+          placeholder={page === "concepts" ? "Search concepts..." : "Search icons by name, tag, or unicode..."}
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
         />
@@ -122,16 +138,18 @@ export function Toolbar({
         </button>
       </div>
 
-      <div className="toolbar-divider" />
-
-      {/* Show names toggle */}
-      <button
-        className="toolbar-toggle"
-        data-active={showNames}
-        onClick={() => onShowNamesChange(!showNames)}
-      >
-        Names
-      </button>
+      {page === "icons" && (
+        <>
+          <div className="toolbar-divider" />
+          <button
+            className="toolbar-toggle"
+            data-active={showNames}
+            onClick={() => onShowNamesChange(!showNames)}
+          >
+            Names
+          </button>
+        </>
+      )}
 
       <div className="toolbar-divider" />
 
@@ -161,14 +179,16 @@ export function Toolbar({
 
       <div style={{ flex: 1 }} />
 
-      {/* Icon count */}
-      <span className="toolbar-icon-count">
-        {iconCount === totalCount
-          ? `${totalCount} icons`
-          : `${iconCount} / ${totalCount}`}
-      </span>
-
-      <div className="toolbar-divider" />
+      {page === "icons" && (
+        <>
+          <span className="toolbar-icon-count">
+            {iconCount === totalCount
+              ? `${totalCount} icons`
+              : `${iconCount} / ${totalCount}`}
+          </span>
+          <div className="toolbar-divider" />
+        </>
+      )}
 
       {/* Dark mode toggle */}
       <button

@@ -2,12 +2,22 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Toolbar } from "./components/Toolbar";
 import { IconGrid } from "./components/IconGrid";
 import { IconSidebar } from "./components/IconSidebar";
+import { SideNav } from "./components/SideNav";
+import { ConceptsTable } from "./components/ConceptsTable";
 import { PasswordGate } from "./components/PasswordGate";
 import { useIconSearch } from "./hooks/useIconSearch";
+import { CONCEPTS } from "./data/concepts";
 import type { IconSize, IconStyle, IconDataFile } from "./types";
+import type { Page } from "./components/SideNav";
 import iconDataRaw from "./generated/icons.json";
 
 const iconData = iconDataRaw as IconDataFile;
+
+function getPageFromPath(): Page {
+  const path = window.location.pathname.replace(/\/+$/, "");
+  if (path === "/concepts") return "concepts";
+  return "icons";
+}
 
 function parseHash(): Record<string, string> {
   const params: Record<string, string> = {};
@@ -23,6 +33,8 @@ function parseHash(): Record<string, string> {
 function App() {
   const initial = useMemo(() => parseHash(), []);
 
+  const [page, setPage] = useState<Page>(getPageFromPath);
+  const [menuOpen, setMenuOpen] = useState(true);
   const [query, setQuery] = useState(initial.q || "");
   const [size, setSize] = useState<IconSize>(
     initial.size === "24" ? "24" : "16"
@@ -40,6 +52,22 @@ function App() {
   const [darkMode, setDarkMode] = useState(() => {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
+
+  const navigateTo = useCallback((p: Page) => {
+    setPage(p);
+    if (p === "concepts") {
+      setSelectedIcon(null);
+    }
+    const basePath = p === "icons" ? "/" : "/concepts";
+    window.history.pushState(null, "", basePath + window.location.hash);
+  }, []);
+
+  // Handle browser back/forward
+  useEffect(() => {
+    const onPopState = () => setPage(getPageFromPath());
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   // Sync state to URL hash
   const updateHash = useCallback(
@@ -61,7 +89,7 @@ function App() {
       }
       const newHash = parts.length ? `#${parts.join("&")}` : "";
       if (window.location.hash !== newHash) {
-        window.history.replaceState(null, "", newHash || window.location.pathname);
+        window.history.replaceState(null, "", window.location.pathname + (newHash || ""));
       }
     },
     [size, style, displaySize, showNames, selectedIcon, query]
@@ -86,48 +114,70 @@ function App() {
     [allIcons, selectedIcon]
   );
 
+  const showSidebar = page === "icons" && selectedIconData;
+
   return (
     <PasswordGate>
-    <div className="app">
-      <Toolbar
-        query={query}
-        onQueryChange={setQuery}
-        size={size}
-        onSizeChange={(s) => {
-          setSize(s);
-          setDisplaySize(Number(s));
-        }}
-        style={style}
-        onStyleChange={setStyle}
-        displaySize={displaySize}
-        onDisplaySizeChange={setDisplaySize}
-        showNames={showNames}
-        onShowNamesChange={setShowNames}
-        darkMode={darkMode}
-        onDarkModeChange={setDarkMode}
-        iconCount={filteredIcons.length}
-        totalCount={allIcons.length}
+    <div className="app-shell">
+      <SideNav
+        open={menuOpen}
+        page={page}
+        onPageChange={navigateTo}
       />
-      <div className="app-body">
-        <div className="app-main">
-          <IconGrid
-            icons={filteredIcons}
-            size={size}
-            style={style}
-            displaySize={displaySize}
-            showNames={showNames}
-            selectedIcon={selectedIcon}
-            onSelectIcon={setSelectedIcon}
-          />
+      <div className="app">
+        <Toolbar
+          query={query}
+          onQueryChange={setQuery}
+          size={size}
+          onSizeChange={(s) => {
+            setSize(s);
+            setDisplaySize(Number(s));
+          }}
+          style={style}
+          onStyleChange={setStyle}
+          displaySize={displaySize}
+          onDisplaySizeChange={setDisplaySize}
+          showNames={showNames}
+          onShowNamesChange={setShowNames}
+          darkMode={darkMode}
+          onDarkModeChange={setDarkMode}
+          iconCount={filteredIcons.length}
+          totalCount={allIcons.length}
+          page={page}
+          onMenuToggle={() => setMenuOpen((v) => !v)}
+        />
+        <div className="app-body">
+          <div className="app-main">
+            {page === "icons" ? (
+              <IconGrid
+                icons={filteredIcons}
+                size={size}
+                style={style}
+                displaySize={displaySize}
+                showNames={showNames}
+                selectedIcon={selectedIcon}
+                onSelectIcon={setSelectedIcon}
+              />
+            ) : (
+              <ConceptsTable
+                concepts={CONCEPTS}
+                allIcons={allIcons}
+                size={size}
+                style={style}
+                displaySize={displaySize}
+                query={query}
+              />
+            )}
+          </div>
+          {showSidebar && (
+            <IconSidebar
+              icon={selectedIconData}
+              size={size}
+              style={style}
+              onClose={() => setSelectedIcon(null)}
+            />
+          )}
         </div>
-        {selectedIconData && (
-          <IconSidebar
-            icon={selectedIconData}
-            size={size}
-            style={style}
-            onClose={() => setSelectedIcon(null)}
-          />
-        )}
       </div>
     </div>
     </PasswordGate>
