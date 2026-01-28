@@ -15,6 +15,7 @@ interface IconCellProps {
 }
 
 const HOVER_DELAY = 400;
+const LEAVE_DELAY = 150;
 
 export function IconCell({
   icon,
@@ -30,31 +31,56 @@ export function IconCell({
   const [showTooltip, setShowTooltip] = useState(false);
   const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
   const cellRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const enterTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleMouseEnter = useCallback(() => {
-    timerRef.current = setTimeout(() => {
+  const cancelEnter = useCallback(() => {
+    if (enterTimerRef.current) {
+      clearTimeout(enterTimerRef.current);
+      enterTimerRef.current = null;
+    }
+  }, []);
+
+  const cancelLeave = useCallback(() => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+  }, []);
+
+  const handleCellEnter = useCallback(() => {
+    cancelLeave();
+    enterTimerRef.current = setTimeout(() => {
       if (cellRef.current) {
         setAnchorRect(cellRef.current.getBoundingClientRect());
         setShowTooltip(true);
       }
     }, HOVER_DELAY);
+  }, [cancelLeave]);
+
+  const handleCellLeave = useCallback(() => {
+    cancelEnter();
+    leaveTimerRef.current = setTimeout(() => {
+      setShowTooltip(false);
+    }, LEAVE_DELAY);
+  }, [cancelEnter]);
+
+  const handleTooltipEnter = useCallback(() => {
+    cancelLeave();
+  }, [cancelLeave]);
+
+  const handleTooltipLeave = useCallback(() => {
+    leaveTimerRef.current = setTimeout(() => {
+      setShowTooltip(false);
+    }, LEAVE_DELAY);
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-    setShowTooltip(false);
-  }, []);
-
-  // Clean up timer on unmount
   useEffect(() => {
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      cancelEnter();
+      cancelLeave();
     };
-  }, []);
+  }, [cancelEnter, cancelLeave]);
 
   if (!svgContent) return null;
 
@@ -65,8 +91,8 @@ export function IconCell({
         className="icon-cell"
         data-selected={selected}
         onClick={onSelect}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={handleCellEnter}
+        onMouseLeave={handleCellLeave}
         style={{ padding }}
       >
         <div
@@ -82,6 +108,8 @@ export function IconCell({
           size={size}
           style={style}
           anchorRect={anchorRect}
+          onMouseEnter={handleTooltipEnter}
+          onMouseLeave={handleTooltipLeave}
         />,
         document.body
       )}
