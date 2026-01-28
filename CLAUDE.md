@@ -17,4 +17,4 @@ Current UI icons sourced from the library:
 - `ICON_MOON` — moon.svg (dark mode toggle)
 - `ICON_COPY` — copy.svg (copy actions)
 - `ICON_CHECK` — check.svg (copied confirmation)
-- `ICON_DOWNLOAD` — arrow-down.svg (download action)
+- `ICON_DOWNLOAD` — arrow-bracket-to-down.svg (all download actions)

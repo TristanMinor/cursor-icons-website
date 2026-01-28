@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import JSZip from "jszip";
 import type { IconSize, IconStyle } from "../types";
-import { ICON_SEARCH, ICON_X, ICON_SUN, ICON_MOON, ICON_CLOUD_DOWNLOAD } from "../icons";
+import { ICON_SEARCH, ICON_X, ICON_SUN, ICON_MOON, ICON_DOWNLOAD } from "../icons";
 
 interface ToolbarProps {
   query: string;
@@ -185,7 +185,7 @@ export function Toolbar({
         onClick={downloadFonts}
         title="Download Icon Fonts (TTF + WOFF2)"
       >
-        <span dangerouslySetInnerHTML={{ __html: ICON_CLOUD_DOWNLOAD }} />
+        <span dangerouslySetInnerHTML={{ __html: ICON_DOWNLOAD }} />
         Download Fonts
       </button>
     </div>
