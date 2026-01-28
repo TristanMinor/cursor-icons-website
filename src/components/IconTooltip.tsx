@@ -88,20 +88,20 @@ export function IconTooltip({ icon, size, style, anchorRect, onMouseEnter, onMou
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {/* Preview */}
-      <div className="icon-tooltip-preview">
-        <div
-          className="icon-tooltip-preview-icon"
-          dangerouslySetInnerHTML={{ __html: svgContent }}
-        />
-      </div>
-
       {/* Name and Unicode */}
       <div className="icon-tooltip-info">
         <span className="icon-tooltip-name">{icon.name}</span>
         {icon.unicode && (
           <span className="icon-tooltip-unicode">U+{icon.unicode}</span>
         )}
+      </div>
+
+      {/* Preview */}
+      <div className="icon-tooltip-preview">
+        <div
+          className="icon-tooltip-preview-icon"
+          dangerouslySetInnerHTML={{ __html: svgContent }}
+        />
       </div>
 
       {/* Actions — same layout as sidebar */}

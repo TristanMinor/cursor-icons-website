@@ -512,12 +512,12 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: 40px 32px;
 }
 
 .icon-tooltip-preview-icon {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   color: var(--text-primary);
 }
 
@@ -531,7 +531,7 @@ input {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding: 0 20px 16px;
+  padding: 16px 20px 0;
 }
 
 .icon-tooltip-name {
