@@ -42,7 +42,10 @@ function App() {
         query={query}
         onQueryChange={setQuery}
         size={size}
-        onSizeChange={setSize}
+        onSizeChange={(s) => {
+          setSize(s);
+          setDisplaySize(Number(s));
+        }}
         style={style}
         onStyleChange={setStyle}
         displaySize={displaySize}
