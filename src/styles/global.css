@@ -482,6 +482,118 @@ input {
   line-height: 1.2;
 }
 
+/* ── Icon Tooltip ──────────────────────────────────────────────────────────── */
+
+.icon-tooltip {
+  position: fixed;
+  z-index: 1000;
+  width: 240px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  pointer-events: auto;
+  animation: tooltip-in 0.15s ease-out;
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.icon-tooltip-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+
+.icon-tooltip-preview-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--text-primary);
+}
+
+.icon-tooltip-preview-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.icon-tooltip-info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 16px 12px;
+}
+
+.icon-tooltip-name {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+.icon-tooltip-unicode {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.icon-tooltip-actions {
+  display: flex;
+  border-top: 1px solid var(--border-primary);
+}
+
+.icon-tooltip-action {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  transition: all 0.1s;
+  border-right: 1px solid var(--border-primary);
+}
+
+.icon-tooltip-action:last-child {
+  border-right: none;
+}
+
+.icon-tooltip-action:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.icon-tooltip-action[data-copied="true"] {
+  color: var(--success);
+}
+
+.icon-tooltip-action > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.icon-tooltip-action > span svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
 /* ── Icon Grid Empty State ──────────────────────────────────────────────────── */
 
 .icon-grid-empty {
