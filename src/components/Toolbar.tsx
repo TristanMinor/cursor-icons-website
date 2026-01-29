@@ -21,6 +21,7 @@ interface ToolbarProps {
   totalCount: number;
   page: Page;
   onMenuToggle: () => void;
+  docTitle?: string;
 }
 
 export function Toolbar({
@@ -40,6 +41,7 @@ export function Toolbar({
   totalCount,
   page,
   onMenuToggle,
+  docTitle,
 }: ToolbarProps) {
   const downloadFonts = useCallback(async () => {
     const zip = new JSZip();
@@ -76,10 +78,7 @@ export function Toolbar({
       </button>
 
       {page === "docs" ? (
-        <>
-          <div className="toolbar-divider" />
-          <span className="toolbar-page-label">Docs</span>
-        </>
+        <span className="toolbar-page-label">{docTitle || "Docs"}</span>
       ) : (
         <>
           <div className="toolbar-divider" />

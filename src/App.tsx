@@ -4,7 +4,7 @@ import { IconGrid } from "./components/IconGrid";
 import { IconSidebar } from "./components/IconSidebar";
 import { SideNav } from "./components/SideNav";
 import { ConceptsTable } from "./components/ConceptsTable";
-import { DocsPage, DEFAULT_DOC_SLUG } from "./components/DocsPage";
+import { DocsPage, DEFAULT_DOC_SLUG, getDocTitle } from "./components/DocsPage";
 import { PasswordGate } from "./components/PasswordGate";
 import { useIconSearch } from "./hooks/useIconSearch";
 import { CONCEPTS } from "./data/concepts";
@@ -170,6 +170,7 @@ function App() {
           totalCount={allIcons.length}
           page={page}
           onMenuToggle={() => setMenuOpen((v) => !v)}
+          docTitle={page === "docs" ? getDocTitle(docSlug) : undefined}
         />
         <div className="app-body">
           <div className="app-main">

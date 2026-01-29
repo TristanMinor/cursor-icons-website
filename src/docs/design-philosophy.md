@@ -8,14 +8,14 @@ Icons come in two sizes, each built on its own pixel grid:
 
 | Size | Grid | Stroke weight |
 |------|------|---------------|
-| **16px** | 16 x 16 | 1.25px |
-| **24px** | 24 x 24 | 1.5px |
+| **16px** | 16 × 16 | 1.25px |
+| **24px** | 24 × 24 | 1.5px |
 
 The 16px variant works well from roughly 14px up to around 20px. From about 22px onward, switch to the 24px variant. The reason for two sizes isn't just scaling — at larger sizes, you want more detail, and you want to control stroke weight rather than letting it grow proportionally. A 16px icon scaled to 32px would have strokes twice as thick, losing the intended feel.
 
 The grid is a starting point, not a constraint. Stroke centers are placed on the grid where possible, but you can — and should — deviate when optical balance demands it.
 
-![16 and 24 grid overlay](todo-image)
+![16 and 24 grid overlay](/images/sizes-and-grids.gif)
 
 ## Two styles
 
@@ -26,13 +26,22 @@ Every icon exists in two styles:
 
 In the filled style, interior details are always knockouts — cut directly from the solid shape. We never place closed outlined shapes on top of a fill.
 
-![Outline vs filled comparison](todo-image)
+![Outline vs filled comparison](/images/styles.png)
 
 ## Optical shapes
 
 Every icon is designed to fit within one of four optical bounding shapes: circle, square, horizontal rectangle, or vertical rectangle. These shapes exist for both the 16px and 24px sizes and ensure visual consistency across the set — a circular icon like a globe and a square icon like a file should appear the same optical size when placed side by side.
 
-![Optical shape templates](todo-image)
+![Optical shape templates](/images/optical-shapes.png)
+
+The exact dimensions for each optical shape at both sizes:
+
+| Shape | 16px | 24px |
+|-------|------|------|
+| **Square** | 13 × 13 | 19 × 19 |
+| **Circle** | 14 × 14 | 21 × 21 |
+| **Horizontal** | 14 × 11 | 21 × 17 |
+| **Vertical** | 11 × 14 | 17 × 21 |
 
 ## Construction
 
@@ -42,19 +51,19 @@ The construction method is deliberate: start with lines that run horizontally, v
 
 This approach gives the set a consistent, engineered feel. The icons are made for a code editor, so they should feel technical and precise — but the rounded corners and caps keep them friendly.
 
-![Cloud and heart construction breakdown](todo-image)
+![Cloud and heart construction breakdown](/images/construction.png)
 
 ## Stroke caps
 
 All strokes use round caps.
 
-![Round stroke caps](todo-image)
+![Round stroke caps](/images/stroke-caps.png)
 
 ## Roundness
 
 Corner rounding on shapes is calibrated to sit between sharp and soft — not too geometric, not too bubbly. The shapes should feel precise but approachable.
 
-![Corner roundness](todo-image)
+![Corner roundness](/images/roundness.png)
 
 ## Optical adjustments
 
@@ -66,13 +75,13 @@ This also opens the door to treating the set as a variable icon font in the futu
 
 Where lines converge and create visually dense areas, we cut small shapes at the junctions to prevent optical clogging.
 
-![Ink traps](todo-image)
+![Ink traps](/images/ink-traps.gif)
 
 ### Stroke thinning
 
 Where a stroke meets another element, we thin it slightly. Keeping it at full weight would make the junction feel heavier than intended.
 
-![Stroke thinning](todo-image)
+![Stroke thinning](compare:stroke-thinning)
 
 ## Natural proportions
 
@@ -80,13 +89,13 @@ Icons are not forced into a square. If an object is naturally vertical, the icon
 
 This means the set avoids the "toy" look that comes from making every icon the same width and height. A pencil is tall and narrow. A monitor is wide and short. They should look that way.
 
-![Natural proportions examples](todo-image)
+![Natural proportions examples](/images/natural-proportions.png)
 
 ## Consistency
 
 Recurring elements — folders, files, flasks, eyes, arrows, badges — are drawn identically every time they appear. If a folder shows up in ten different icons, it's the same folder. This compounds into a set that feels unified rather than assembled from parts.
 
-![Consistency examples](todo-image)
+![Consistency examples](/images/consistency.gif)
 
 ## Complexity and testing
 
