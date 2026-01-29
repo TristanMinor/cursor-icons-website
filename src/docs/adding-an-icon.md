@@ -8,10 +8,10 @@ Open the [Cursor Icons](https://www.figma.com/design/7XykK9nzkxTrOqnQRLmiiv/Curs
 
 Create your icon in all four variants:
 
-- **16px / Outline**
-- **16px / Filled**
-- **24px / Outline**
-- **24px / Filled**
+- 16px / Outline
+- 16px / Filled
+- 24px / Outline
+- 24px / Filled
 
 > Flatten all paths in your icon. Boolean operations and grouped shapes must be merged into a single path. This is required for icon font generation â€” the font compiler cannot handle compound shapes or strokes that haven't been outlined and flattened.
 
@@ -25,10 +25,10 @@ You need SVG files for each variant you've added or changed. For bulk exports â€
 
 | Board | Size | Style |
 |-------|------|-------|
-| 16 Outline | 16px | Outline |
-| 16 Filled | 16px | Filled |
-| 24 Outline | 24px | Outline |
-| 24 Filled | 24px | Filled |
+| **16 Outline** | 16px | Outline |
+| **16 Filled** | 16px | Filled |
+| **24 Outline** | 24px | Outline |
+| **24 Filled** | 24px | Filled |
 
 Export the updated icons from each board as SVG files. If you've only changed a few icons, you can also export individual SVGs directly from the master file.
 

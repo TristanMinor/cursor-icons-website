@@ -1163,7 +1163,7 @@ input {
   padding: 24px 40px 120px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 /* Header: subtitle + title, tight together */
