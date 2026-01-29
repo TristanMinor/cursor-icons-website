@@ -1045,10 +1045,14 @@ input {
   color: var(--text-primary);
 }
 
-.concepts-cell-iconname {
+.concepts-cell-iconname code {
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
 }
 
 .concepts-status-badge {

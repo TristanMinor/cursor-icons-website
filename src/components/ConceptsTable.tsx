@@ -130,7 +130,7 @@ export function ConceptsTable({ concepts, allIcons, size, style, displaySize, qu
                   />
                   <span className="concepts-cell-name">{entry.concept}</span>
                 </td>
-                <td className="concepts-cell-iconname">{entry.iconName}</td>
+                <td className="concepts-cell-iconname"><code>{entry.iconName}</code></td>
                 <td className="concepts-cell-status">
                   <span
                     className="concepts-status-badge"
