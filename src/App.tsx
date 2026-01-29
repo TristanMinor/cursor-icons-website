@@ -74,8 +74,10 @@ function App() {
   }, [docSlug]);
 
   const navigateToDoc = useCallback((slug: string) => {
+    setPage("docs");
     setDocSlug(slug);
-    window.history.pushState(null, "", `/docs/${slug}` + window.location.hash);
+    setSelectedIcon(null);
+    window.history.pushState(null, "", `/docs/${slug}`);
   }, []);
 
   // Handle browser back/forward
@@ -115,8 +117,10 @@ function App() {
   );
 
   useEffect(() => {
-    updateHash();
-  }, [updateHash]);
+    if (page !== "docs") {
+      updateHash();
+    }
+  }, [updateHash, page]);
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -141,7 +145,9 @@ function App() {
       <SideNav
         open={menuOpen}
         page={page}
+        docSlug={docSlug}
         onPageChange={navigateTo}
+        onDocChange={navigateToDoc}
       />
       <div className="app">
         <Toolbar
@@ -189,7 +195,6 @@ function App() {
             ) : (
               <DocsPage
                 activeSlug={docSlug}
-                onNavigate={navigateToDoc}
               />
             )}
           </div>
