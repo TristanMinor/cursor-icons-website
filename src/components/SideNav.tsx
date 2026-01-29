@@ -1,4 +1,4 @@
-export type Page = "icons" | "concepts";
+export type Page = "icons" | "concepts" | "docs";
 
 interface SideNavProps {
   open: boolean;
@@ -22,6 +22,13 @@ export function SideNav({ open, page, onPageChange }: SideNavProps) {
         onClick={() => onPageChange("concepts")}
       >
         Concepts
+      </button>
+      <button
+        className="sidenav-item"
+        data-active={page === "docs"}
+        onClick={() => onPageChange("docs")}
+      >
+        Docs
       </button>
     </nav>
   );

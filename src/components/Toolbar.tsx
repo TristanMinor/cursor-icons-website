@@ -75,120 +75,130 @@ export function Toolbar({
         <span dangerouslySetInnerHTML={{ __html: ICON_MENU }} />
       </button>
 
-      <div className="toolbar-divider" />
-
-      {/* Search */}
-      <div className="toolbar-search">
-        <span className="toolbar-search-icon" dangerouslySetInnerHTML={{ __html: ICON_SEARCH }} />
-        <input
-          className="toolbar-search-input"
-          type="text"
-          placeholder={page === "concepts" ? "Search concepts..." : "Search icons by name, tag, or unicode..."}
-          value={query}
-          onChange={(e) => onQueryChange(e.target.value)}
-        />
-        {query && (
-          <button
-            className="toolbar-search-clear"
-            onClick={() => onQueryChange("")}
-            title="Clear search"
-          >
-            <span dangerouslySetInnerHTML={{ __html: ICON_X }} />
-          </button>
-        )}
-      </div>
-
-      <div className="toolbar-divider" />
-
-      {/* Size toggle */}
-      <div className="toolbar-group">
-        <button
-          className="toolbar-toggle"
-          data-active={size === "16"}
-          onClick={() => onSizeChange("16")}
-        >
-          16px
-        </button>
-        <button
-          className="toolbar-toggle"
-          data-active={size === "24"}
-          onClick={() => onSizeChange("24")}
-        >
-          24px
-        </button>
-      </div>
-
-      <div className="toolbar-divider" />
-
-      {/* Style toggle */}
-      <div className="toolbar-group">
-        <button
-          className="toolbar-toggle"
-          data-active={style === "outline"}
-          onClick={() => onStyleChange("outline")}
-        >
-          Outline
-        </button>
-        <button
-          className="toolbar-toggle"
-          data-active={style === "filled"}
-          onClick={() => onStyleChange("filled")}
-        >
-          Filled
-        </button>
-      </div>
-
-      {page === "icons" && (
+      {page === "docs" ? (
         <>
           <div className="toolbar-divider" />
-          <button
-            className="toolbar-toggle"
-            data-active={showNames}
-            onClick={() => onShowNamesChange(!showNames)}
-          >
-            Names
-          </button>
+          <span className="toolbar-page-label">Docs</span>
+        </>
+      ) : (
+        <>
+          <div className="toolbar-divider" />
+
+          {/* Search */}
+          <div className="toolbar-search">
+            <span className="toolbar-search-icon" dangerouslySetInnerHTML={{ __html: ICON_SEARCH }} />
+            <input
+              className="toolbar-search-input"
+              type="text"
+              placeholder={page === "concepts" ? "Search concepts..." : "Search icons by name, tag, or unicode..."}
+              value={query}
+              onChange={(e) => onQueryChange(e.target.value)}
+            />
+            {query && (
+              <button
+                className="toolbar-search-clear"
+                onClick={() => onQueryChange("")}
+                title="Clear search"
+              >
+                <span dangerouslySetInnerHTML={{ __html: ICON_X }} />
+              </button>
+            )}
+          </div>
+
+          <div className="toolbar-divider" />
+
+          {/* Size toggle */}
+          <div className="toolbar-group">
+            <button
+              className="toolbar-toggle"
+              data-active={size === "16"}
+              onClick={() => onSizeChange("16")}
+            >
+              16px
+            </button>
+            <button
+              className="toolbar-toggle"
+              data-active={size === "24"}
+              onClick={() => onSizeChange("24")}
+            >
+              24px
+            </button>
+          </div>
+
+          <div className="toolbar-divider" />
+
+          {/* Style toggle */}
+          <div className="toolbar-group">
+            <button
+              className="toolbar-toggle"
+              data-active={style === "outline"}
+              onClick={() => onStyleChange("outline")}
+            >
+              Outline
+            </button>
+            <button
+              className="toolbar-toggle"
+              data-active={style === "filled"}
+              onClick={() => onStyleChange("filled")}
+            >
+              Filled
+            </button>
+          </div>
+
+          {page === "icons" && (
+            <>
+              <div className="toolbar-divider" />
+              <button
+                className="toolbar-toggle"
+                data-active={showNames}
+                onClick={() => onShowNamesChange(!showNames)}
+              >
+                Names
+              </button>
+            </>
+          )}
+
+          <div className="toolbar-divider" />
+
+          {/* Display size slider with editable input */}
+          <div className="toolbar-slider">
+            <input
+              type="range"
+              min={12}
+              max={96}
+              step={1}
+              value={displaySize}
+              onChange={(e) => onDisplaySizeChange(Number(e.target.value))}
+            />
+            <input
+              type="number"
+              className="toolbar-slider-input"
+              value={displaySize}
+              min={12}
+              max={96}
+              onChange={(e) => {
+                const val = Math.max(12, Math.min(96, Number(e.target.value) || 12));
+                onDisplaySizeChange(val);
+              }}
+            />
+            <span className="toolbar-slider-label">px</span>
+          </div>
+
+          {page === "icons" && (
+            <>
+              <div style={{ flex: 1 }} />
+              <span className="toolbar-icon-count">
+                {iconCount === totalCount
+                  ? `${totalCount} icons`
+                  : `${iconCount} / ${totalCount}`}
+              </span>
+              <div className="toolbar-divider" />
+            </>
+          )}
         </>
       )}
-
-      <div className="toolbar-divider" />
-
-      {/* Display size slider with editable input */}
-      <div className="toolbar-slider">
-        <input
-          type="range"
-          min={12}
-          max={96}
-          step={1}
-          value={displaySize}
-          onChange={(e) => onDisplaySizeChange(Number(e.target.value))}
-        />
-        <input
-          type="number"
-          className="toolbar-slider-input"
-          value={displaySize}
-          min={12}
-          max={96}
-          onChange={(e) => {
-            const val = Math.max(12, Math.min(96, Number(e.target.value) || 12));
-            onDisplaySizeChange(val);
-          }}
-        />
-        <span className="toolbar-slider-label">px</span>
-      </div>
 
       <div style={{ flex: 1 }} />
-
-      {page === "icons" && (
-        <>
-          <span className="toolbar-icon-count">
-            {iconCount === totalCount
-              ? `${totalCount} icons`
-              : `${iconCount} / ${totalCount}`}
-          </span>
-          <div className="toolbar-divider" />
-        </>
-      )}
 
       {/* Dark mode toggle */}
       <button

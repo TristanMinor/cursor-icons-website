@@ -4,6 +4,7 @@ import { IconGrid } from "./components/IconGrid";
 import { IconSidebar } from "./components/IconSidebar";
 import { SideNav } from "./components/SideNav";
 import { ConceptsTable } from "./components/ConceptsTable";
+import { DocsPage, DEFAULT_DOC_SLUG } from "./components/DocsPage";
 import { PasswordGate } from "./components/PasswordGate";
 import { useIconSearch } from "./hooks/useIconSearch";
 import { CONCEPTS } from "./data/concepts";
@@ -16,7 +17,14 @@ const iconData = iconDataRaw as IconDataFile;
 function getPageFromPath(): Page {
   const path = window.location.pathname.replace(/\/+$/, "");
   if (path === "/concepts") return "concepts";
+  if (path.startsWith("/docs")) return "docs";
   return "icons";
+}
+
+function getDocSlugFromPath(): string {
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const match = path.match(/^\/docs\/(.+)/);
+  return match ? match[1] : DEFAULT_DOC_SLUG;
 }
 
 function parseHash(): Record<string, string> {
@@ -34,6 +42,7 @@ function App() {
   const initial = useMemo(() => parseHash(), []);
 
   const [page, setPage] = useState<Page>(getPageFromPath);
+  const [docSlug, setDocSlug] = useState(getDocSlugFromPath);
   const [menuOpen, setMenuOpen] = useState(true);
   const [query, setQuery] = useState(initial.q || "");
   const [size, setSize] = useState<IconSize>(
@@ -55,16 +64,26 @@ function App() {
 
   const navigateTo = useCallback((p: Page) => {
     setPage(p);
-    if (p === "concepts") {
+    if (p !== "icons") {
       setSelectedIcon(null);
     }
-    const basePath = p === "icons" ? "/" : "/concepts";
+    let basePath = "/";
+    if (p === "concepts") basePath = "/concepts";
+    if (p === "docs") basePath = `/docs/${docSlug}`;
     window.history.pushState(null, "", basePath + window.location.hash);
+  }, [docSlug]);
+
+  const navigateToDoc = useCallback((slug: string) => {
+    setDocSlug(slug);
+    window.history.pushState(null, "", `/docs/${slug}` + window.location.hash);
   }, []);
 
   // Handle browser back/forward
   useEffect(() => {
-    const onPopState = () => setPage(getPageFromPath());
+    const onPopState = () => {
+      setPage(getPageFromPath());
+      setDocSlug(getDocSlugFromPath());
+    };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
@@ -158,7 +177,7 @@ function App() {
                 selectedIcon={selectedIcon}
                 onSelectIcon={setSelectedIcon}
               />
-            ) : (
+            ) : page === "concepts" ? (
               <ConceptsTable
                 concepts={CONCEPTS}
                 allIcons={allIcons}
@@ -166,6 +185,11 @@ function App() {
                 style={style}
                 displaySize={displaySize}
                 query={query}
+              />
+            ) : (
+              <DocsPage
+                activeSlug={docSlug}
+                onNavigate={navigateToDoc}
               />
             )}
           </div>
